@@ -1,4 +1,0 @@
-[
-    { "name": "Juan Roldan", "age": 27, "courses": ["React"], "id": 1 },
-    { "name": "Marcos Garncaho", "age": 23, "courses": ["php"], "id": 2 }
-]
