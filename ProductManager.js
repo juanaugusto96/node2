@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-class ProductManager {
+export class ProductManager {
   #filePath;
   #lastId = 0;
 
@@ -111,47 +111,30 @@ class ProductManager {
 // Ejemplo de uso:
 const productManager = new ProductManager('./productos.json');
 
-// ... Aquí irían las llamadas a los métodos, similares al uso del StudentsManager
+(async () => {
+  try {
+    const newProduct = await productManager.addProduct({
+      title: 'Producto 1',
+      description: 'Descripción del producto 1',
+      price: 10.99,
+      thumbnail: 'imagen1.jpg',
+      code: 'P001',
+      stock: 50
+    });
+    console.log('Producto agregado:', newProduct);
 
+    const products = await productManager.getProducts();
+    console.log('Todos los productos:', products);
 
-// Agregar un producto
-productManager.addProduct({
-  title: 'Producto 1',
-  description: 'Descripción del producto 1',
-  price: 10.99,
-  thumbnail: 'imagen1.jpg',
-  code: 'P001',
-  stock: 50
-}).then(newProduct => {
-  console.log('Producto agregado:', newProduct);
-}).catch(error => {
-  console.error(error.message);
-});
+    const productById = await productManager.getProductById(1);
+    console.log('Producto por ID:', productById);
 
-// Obtener todos los productos
-productManager.getProducts().then(products => {
-  console.log('Todos los productos:', products);
-}).catch(error => {
-  console.error(error.message);
-});
+    const updatedProduct = await productManager.updateProduct(1, { price: 15.99 });
+    console.log('Producto actualizado:', updatedProduct);
 
-// Obtener producto por ID
-productManager.getProductById(1).then(product => {
-  console.log('Producto por ID:', product);
-}).catch(error => {
-  console.error(error.message);
-});
-
-// Actualizar un producto por ID
-productManager.updateProduct(1, { price: 15.99 }).then(updatedProduct => {
-  console.log('Producto actualizado:', updatedProduct);
-}).catch(error => {
-  console.error(error.message);
-});
-
-// Eliminar un producto por ID
-productManager.deleteProduct(1).then(() => {
-  console.log('Producto eliminado');
-}).catch(error => {
-  console.error(error.message);
-});
+    await productManager.deleteProduct(1);
+    console.log('Producto eliminado');
+  } catch (error) {
+    console.error(error.message);
+  }
+})();
